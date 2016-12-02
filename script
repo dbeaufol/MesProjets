@@ -1,0 +1,26 @@
+#!/bin/bash
+clear
+
+echo "Entrer le nom de la base de données:"
+read -e dbname
+
+echo "Entrer votre nom d'utilisateur:"
+read -e dbuser
+
+echo "Entrer votre mot de passe:"
+read -s dbpass
+
+echo "lancer l'instalation? (y/n)"
+read -e run
+
+if [[ $run == "n" ]] ; then
+exit
+else
+#telechargement wordpress
+wp core download --locale=fr_FR
+wp core config --dbname=$dbname --dbuser=root --dbpass=0000
+currentdirectory=${PWD##*/}
+wp db create
+wp core install --url="http://localhost/$currentdirectory" --title="$sitename" --admin_user="$wpuser" --admin_password="$password" --admin_email="user@example.org"
+
+fi
